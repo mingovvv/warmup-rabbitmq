@@ -1,5 +1,6 @@
-package com.example.warmuprabbitmq.service;
+package com.example.warmuprabbitmq.component;
 
+import com.example.warmuprabbitmq.config.RabbitProperties;
 import com.example.warmuprabbitmq.dto.MessageDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -10,15 +11,10 @@ import org.springframework.stereotype.Service;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class WarmupService {
-
-    @Value("${rabbitmq.exchange.name}")
-    private String exchangeName;
-
-    @Value("${rabbitmq.routing.key}")
-    private String routingKey;
+public class WarmupProducer {
 
     private final RabbitTemplate rabbitTemplate;
+    private final RabbitProperties rabbitProperties;
 
     /**
      * Queue로 메시지를 발행
@@ -27,7 +23,10 @@ public class WarmupService {
      */
     public void sendMessage(MessageDto messageDto) {
         log.info("message sent: {}", messageDto.toString());
-        rabbitTemplate.convertAndSend(exchangeName, routingKey, messageDto);
+        rabbitTemplate.convertAndSend(
+                rabbitProperties.getCustom().getExchange().getDirect(),
+                rabbitProperties.getCustom().getRouting().getDirect(),
+                messageDto);
     }
 
 }
