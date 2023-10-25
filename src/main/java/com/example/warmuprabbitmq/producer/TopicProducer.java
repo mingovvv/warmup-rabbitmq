@@ -10,15 +10,19 @@ import org.springframework.stereotype.Service;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class DirectProducer implements RabbitExchange {
+public class TopicProducer implements RabbitExchange {
 
     private final RabbitTemplate rabbitTemplate;
     private final RabbitProperties rabbitProperties;
 
+    /**
+     * exchange type : TOPIC
+     *
+     */
     @Override
     public void sendMessage(MessageDto messageDto) {
-        log.info("Direct Message Sent: [{}]", messageDto.toString());
-        rabbitTemplate.convertAndSend(rabbitProperties.getDirectExchange(), messageDto.getRoutingKey(), messageDto);
+        log.info("Topic Message Sent: [{}]", messageDto.toString());
+        rabbitTemplate.convertAndSend(rabbitProperties.getTopicExchange(), messageDto.getRoutingKey(), messageDto);
     }
 
 }

@@ -3,10 +3,10 @@ package com.example.warmuprabbitmq.dto;
 import lombok.Data;
 
 @Data
-public class Message {
+public class MessageDto {
 
-    private Long id;
-    private String username;
-    private String status;
+    private String message;
+    private ExchangeType exchangeType;
+    private String routingKey;
 
 }

@@ -10,15 +10,19 @@ import org.springframework.stereotype.Service;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class DirectProducer implements RabbitExchange {
+public class FanoutProducer implements RabbitExchange {
 
     private final RabbitTemplate rabbitTemplate;
     private final RabbitProperties rabbitProperties;
 
+    /**
+     * exchange type : FANOUT
+     *
+     */
     @Override
     public void sendMessage(MessageDto messageDto) {
-        log.info("Direct Message Sent: [{}]", messageDto.toString());
-        rabbitTemplate.convertAndSend(rabbitProperties.getDirectExchange(), messageDto.getRoutingKey(), messageDto);
+        log.info("Fanout Message Sent: [{}]", messageDto.toString());
+        rabbitTemplate.convertAndSend(rabbitProperties.getFanoutExchange(), null, messageDto);
     }
 
 }

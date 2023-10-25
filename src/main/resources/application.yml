@@ -1,1 +1,10 @@
-
+spring:
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: guest
+    password: guest
+    queue-name: user.human.eric,user.human.aron,user.human.adam,user.devil.emma,user.devil.issabel,admin.none.gm
+    direct-exchange: mingo.direct
+    topic-exchange: mingo.topic
+    fanout-exchange: mingo.fanout

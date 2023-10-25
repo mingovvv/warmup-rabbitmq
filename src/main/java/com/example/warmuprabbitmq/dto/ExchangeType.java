@@ -1,6 +1,6 @@
 package com.example.warmuprabbitmq.dto;
 
-public enum Topic {
+public enum ExchangeType {
 
     DIRECT, FANOUT, TOPIC, HEADERS
 
