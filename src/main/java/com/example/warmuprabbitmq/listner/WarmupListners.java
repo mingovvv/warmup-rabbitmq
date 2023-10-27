@@ -11,6 +11,16 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class WarmupListners {
 
+    @RabbitListener(queues = "mingo.delay.queue1")
+    public void receiveMessage1(MessageDto MessageDto) {
+        log.info("Received REAL, message: [{}]", MessageDto.toString());
+    }
+
+    @RabbitListener(queues = "mingo.delay.queue2")
+    public void receiveMessage2(MessageDto MessageDto) {
+        log.info("Received PROXY, message: [{}]", MessageDto.toString());
+    }
+
 //    @RabbitListener(queues = "mingo.fruit.apple")
 //    public void receiveMessage1(MessageDto MessageDto) {
 //        log.info("Received Queue name : [{}], message: [{}]", "mingo.fruit.apple", MessageDto.toString());

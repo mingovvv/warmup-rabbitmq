@@ -22,7 +22,7 @@ public class FanoutProducer implements RabbitExchange {
     @Override
     public void sendMessage(MessageDto messageDto) {
         log.info("Fanout Message Sent: [{}]", messageDto.toString());
-        rabbitTemplate.convertAndSend(rabbitProperties.getFanoutExchange(), null, messageDto);
+        rabbitTemplate.convertAndSend("mingo.delay.fanout", null, messageDto);
     }
 
 }

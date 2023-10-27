@@ -14,6 +14,7 @@ import org.springframework.context.annotation.Configuration;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -109,6 +110,30 @@ public class RabbitConfig {
         declarables.addAll(bindings);
 
         return new Declarables(declarables);
+
+    }
+
+    @Bean
+    public Declarables directDelayBindings() {
+
+        Queue queue = new Queue("mingo.delay.queue1");
+
+        // name
+        // durable
+        // exclusive
+        // autoDelete
+        // arguments
+        Queue delayQueue = new Queue("mingo.delay.queue2", true, false, false,
+                Map.of(
+                        "x-dead-letter-routing-key", "mingo.delay.queue1"
+                        ,"x-dead-letter-exchange", "mingo.delay.fanout"
+                        , "x-message-ttl", 5000L));
+
+        FanoutExchange delayFanout = new FanoutExchange("mingo.delay.fanout");
+
+        Binding binding = BindingBuilder.bind(delayQueue).to(delayFanout);
+        Binding binding2 = BindingBuilder.bind(queue).to(delayFanout);
+        return new Declarables(delayQueue, queue, delayFanout, binding, binding2);
 
     }
 
